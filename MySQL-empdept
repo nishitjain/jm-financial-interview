@@ -1,0 +1,61 @@
+mysql> use test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table DEPARTMENT (ID int PRIMARY KEY NOT NULL, NAME nvarchar(20) NOT NULL, LOCATION nvarchar(20) NOT NULL);
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> create table EMPLOYEE (ID int PRIMARY KEY NOT NULL, NAME nvarchar(20) NOT NULL, SALARY int NOT NULL, DEPT_ID int NOT NULL, FOREIGN KEY(DEPT_ID) REFERENCES DEPARTMENT(ID));
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> select * from DEPARTMENT;
++----+-------------+-----------+
+| ID | NAME        | LOCATION  |
++----+-------------+-----------+
+|  1 | HR          | Bengaluru |
+|  2 | R&D         | Mumbai    |
+|  3 | Development | Chennai   |
+|  4 | Management  | Delhi     |
+|  5 | Executive   | Hyderabad |
++----+-------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from EMPLOYEE;
++----+------------+--------+---------+
+| ID | NAME       | SALARY | DEPT_ID |
++----+------------+--------+---------+
+|  1 | Rahul      |   6500 |       1 |
+|  2 | Karan      |   7500 |       5 |
+|  3 | Sunil      |  10500 |       4 |
+|  4 | Santosh    |  13500 |       3 |
+|  5 | Isha       |   4560 |       2 |
+|  6 | Fakhruddin |   6780 |       1 |
+|  7 | Akshay     |   9890 |       2 |
+|  8 | Gopal      |   7870 |       5 |
+|  9 | Saroj      |   8980 |       4 |
+| 10 | Pritesh    |   6980 |       3 |
+| 11 | Rounak     |   8980 |       3 |
+| 12 | Pranam     |   7980 |       5 |
+| 13 | Usha       |   4980 |       2 |
+| 14 | Harish     |   7880 |       1 |
+| 15 | Chirag     |  10980 |       4 |
+| 16 | Lal        |  13480 |       4 |
+| 17 | Ganesh     |  15480 |       4 |
+| 18 | Sneha      |  15580 |       3 |
+| 19 | Prashant   |  16780 |       3 |
++----+------------+--------+---------+
+19 rows in set (0.00 sec)
+
+mysql> select D.NAME as 'Department Name', count(E.NAME) as 'Employee Count' from DEPARTMENT D, EMPLOYEE E where E.DEPT_ID = D.ID group by D.NAME order by count(E.NAME) desc, D.NAME;
++-----------------+----------------+
+| Department Name | Employee Count |
++-----------------+----------------+
+| Development     |              5 |
+| Management      |              5 |
+| Executive       |              3 |
+| HR              |              3 |
+| R&D             |              3 |
++-----------------+----------------+
+5 rows in set (0.00 sec)
+
